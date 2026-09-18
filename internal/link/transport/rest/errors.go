@@ -1,17 +1,32 @@
 package rest
 
 import (
+	"errors"
+	"net/http"
+
 	"github.com/iamroockie/linkforge/internal/link"
 	"github.com/iamroockie/linkforge/internal/platform/httpx"
+)
+
+const (
+	CodeLinkNotFound httpx.Code = "link_not_found"
 )
 
 const (
 	FieldCodeUnsupportedScheme httpx.FieldCode = "unsupported_scheme"
 )
 
+const (
+	MsgLinkNotFound = "Link not found"
+)
+
 func mapError(err error) error {
 	if fieldErrors := httpx.MatchFieldErrors(err, fieldRules()); len(fieldErrors) > 0 {
 		return httpx.ValidationError(fieldErrors)
+	}
+
+	if errors.Is(err, link.ErrLinkNotFound) {
+		return httpx.NewError(http.StatusNotFound, CodeLinkNotFound, MsgLinkNotFound, err)
 	}
 
 	return err

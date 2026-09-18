@@ -8,16 +8,15 @@ import (
 	"github.com/iamroockie/linkforge/internal/platform/httpx"
 )
 
-type CreateLinkRequest struct {
-	URL string  `json:"url"`
-	TTL *string `json:"ttl"`
-}
-
 func CreateLink(creator LinkCreator) http.Handler {
 	return httpx.Handle(func(w http.ResponseWriter, r *http.Request) (*httpx.Response, error) {
-		r.Body = http.MaxBytesReader(w, r.Body, 1<<10) // 1KB
+		type request struct {
+			URL string  `json:"url"`
+			TTL *string `json:"ttl"`
+		}
 
-		req, err := httpx.ParseRequestJSON[CreateLinkRequest](r)
+		r.Body = http.MaxBytesReader(w, r.Body, 1<<10) // 1KB
+		req, err := httpx.ParseRequestJSON[request](r)
 		if err != nil {
 			return nil, err
 		}

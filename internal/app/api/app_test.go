@@ -18,4 +18,5 @@ func TestNewApp(t *testing.T) {
 	assert.NotNil(t, app.PgxPool)
 	assert.NotNil(t, app.Logger)
 	assert.NotZero(t, app.Link.CreateLinkUC)
+	assert.NotZero(t, app.Link.GetRedirectURLUC)
 }

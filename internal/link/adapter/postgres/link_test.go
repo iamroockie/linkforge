@@ -14,7 +14,7 @@ import (
 	"github.com/iamroockie/linkforge/internal/platform/pg/pgtest"
 )
 
-func TestLinkRepository_Save_OK(t *testing.T) {
+func TestLinkRepository_Save(t *testing.T) {
 	t.Parallel()
 	pool := pgtest.NewPool(t)
 	repo := postgres.NewLinkRepository(pool)
@@ -60,7 +60,48 @@ func TestLinkRepository_Save_Error(t *testing.T) {
 
 	err := repo.Save(ctx, l)
 
-	require.Error(t, err)
-	require.ErrorContains(t, err, "insert link")
 	require.ErrorIs(t, err, context.Canceled)
+	require.ErrorContains(t, err, "insert link")
+}
+
+func TestLinkRepository_GetByAlias(t *testing.T) {
+	t.Parallel()
+	pool := pgtest.NewPool(t)
+	repo := postgres.NewLinkRepository(pool)
+	l := linktest.Link(t)
+
+	err := repo.Save(t.Context(), l)
+	require.NoError(t, err)
+
+	link, err := repo.GetByAlias(t.Context(), l.Alias)
+	require.NoError(t, err)
+	assert.Equal(t, l.Alias, link.Alias)
+	assert.Equal(t, l.URL, link.URL)
+	require.NotNil(t, link.ExpiresAt)
+	assert.WithinDuration(t, *l.ExpiresAt, *link.ExpiresAt, time.Microsecond)
+}
+
+func TestLinkRepository_GetByAlias_NotFound(t *testing.T) {
+	t.Parallel()
+	pool := pgtest.NewPool(t)
+	repo := postgres.NewLinkRepository(pool)
+
+	l, err := repo.GetByAlias(t.Context(), "not-found")
+
+	require.ErrorIs(t, err, link.ErrLinkNotFound)
+	assert.Zero(t, l)
+}
+
+func TestLinkRepository_GetByAlias_Error(t *testing.T) {
+	t.Parallel()
+	pool := pgtest.NewPool(t)
+	repo := postgres.NewLinkRepository(pool)
+	ctx, cancel := context.WithCancel(t.Context())
+	cancel()
+
+	l, err := repo.GetByAlias(ctx, "abc")
+
+	require.ErrorIs(t, err, context.Canceled)
+	require.ErrorContains(t, err, "get link by alias")
+	assert.Zero(t, l)
 }

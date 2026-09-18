@@ -79,7 +79,7 @@ func generateAlias() (string, error) {
 	buf := make([]byte, 6)
 	_, err := rand.Read(buf)
 	if err != nil {
-		return "", fmt.Errorf("generate alias: %w", err)
+		return "", err
 	}
 
 	length := len(charset)

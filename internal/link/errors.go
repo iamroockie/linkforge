@@ -3,7 +3,9 @@ package link
 import "errors"
 
 var (
-	ErrAliasTaken = errors.New("alias taken")
+	ErrAliasTaken   = errors.New("alias taken")
+	ErrLinkNotFound = errors.New("link not found")
+
 	// Validation errors
 	ErrURLMalformed         = errors.New("url malformed")
 	ErrURLMissingHost       = errors.New("url missing host")

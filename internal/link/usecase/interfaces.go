@@ -10,3 +10,7 @@ import (
 type LinkSaver interface {
 	Save(context.Context, link.Link) error
 }
+
+type LinkProvider interface {
+	GetByAlias(ctx context.Context, alias string) (link.Link, error)
+}

@@ -13,7 +13,7 @@ import (
 	"github.com/iamroockie/linkforge/internal/link/usecase"
 )
 
-func TestCreateLink_OK(t *testing.T) {
+func TestCreateLink(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	saver := NewMockLinkSaver(ctrl)
 	saver.EXPECT().Save(t.Context(), gomock.Any())

@@ -2,8 +2,10 @@ package postgres
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/iamroockie/linkforge/internal/link"
@@ -33,4 +35,20 @@ func (r LinkRepository) Save(ctx context.Context, l link.Link) error {
 	}
 
 	return nil
+}
+
+func (r LinkRepository) GetByAlias(ctx context.Context, alias string) (link.Link, error) {
+	sql := `SELECT alias, url, expires_at FROM links WHERE alias = $1`
+	row := r.pool.QueryRow(ctx, sql, alias)
+
+	var l link.Link
+	err := row.Scan(&l.Alias, &l.URL, &l.ExpiresAt)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return link.Link{}, link.ErrLinkNotFound
+		}
+		return link.Link{}, fmt.Errorf("get link by alias: %w", err)
+	}
+
+	return l, nil
 }

@@ -42,16 +42,55 @@ func (m *MockLinkCreator) EXPECT() *MockLinkCreatorMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockLinkCreator) Create(arg0 context.Context, arg1 link.CreateLinkParams) (link.Link, error) {
+func (m *MockLinkCreator) Create(ctx context.Context, l link.CreateLinkParams) (link.Link, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1)
+	ret := m.ctrl.Call(m, "Create", ctx, l)
 	ret0, _ := ret[0].(link.Link)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockLinkCreatorMockRecorder) Create(arg0, arg1 any) *gomock.Call {
+func (mr *MockLinkCreatorMockRecorder) Create(ctx, l any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLinkCreator)(nil).Create), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLinkCreator)(nil).Create), ctx, l)
+}
+
+// MockRedirectURLProvider is a mock of RedirectURLProvider interface.
+type MockRedirectURLProvider struct {
+	ctrl     *gomock.Controller
+	recorder *MockRedirectURLProviderMockRecorder
+	isgomock struct{}
+}
+
+// MockRedirectURLProviderMockRecorder is the mock recorder for MockRedirectURLProvider.
+type MockRedirectURLProviderMockRecorder struct {
+	mock *MockRedirectURLProvider
+}
+
+// NewMockRedirectURLProvider creates a new mock instance.
+func NewMockRedirectURLProvider(ctrl *gomock.Controller) *MockRedirectURLProvider {
+	mock := &MockRedirectURLProvider{ctrl: ctrl}
+	mock.recorder = &MockRedirectURLProviderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRedirectURLProvider) EXPECT() *MockRedirectURLProviderMockRecorder {
+	return m.recorder
+}
+
+// Get mocks base method.
+func (m *MockRedirectURLProvider) Get(ctx context.Context, alias string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get", ctx, alias)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockRedirectURLProviderMockRecorder) Get(ctx, alias any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRedirectURLProvider)(nil).Get), ctx, alias)
 }

@@ -8,5 +8,9 @@ import (
 )
 
 type LinkCreator interface {
-	Create(context.Context, link.CreateLinkParams) (link.Link, error)
+	Create(ctx context.Context, l link.CreateLinkParams) (link.Link, error)
+}
+
+type RedirectURLProvider interface {
+	Get(ctx context.Context, alias string) (string, error)
 }

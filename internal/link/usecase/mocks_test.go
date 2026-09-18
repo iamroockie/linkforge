@@ -54,3 +54,42 @@ func (mr *MockLinkSaverMockRecorder) Save(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockLinkSaver)(nil).Save), arg0, arg1)
 }
+
+// MockLinkProvider is a mock of LinkProvider interface.
+type MockLinkProvider struct {
+	ctrl     *gomock.Controller
+	recorder *MockLinkProviderMockRecorder
+	isgomock struct{}
+}
+
+// MockLinkProviderMockRecorder is the mock recorder for MockLinkProvider.
+type MockLinkProviderMockRecorder struct {
+	mock *MockLinkProvider
+}
+
+// NewMockLinkProvider creates a new mock instance.
+func NewMockLinkProvider(ctrl *gomock.Controller) *MockLinkProvider {
+	mock := &MockLinkProvider{ctrl: ctrl}
+	mock.recorder = &MockLinkProviderMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockLinkProvider) EXPECT() *MockLinkProviderMockRecorder {
+	return m.recorder
+}
+
+// GetByAlias mocks base method.
+func (m *MockLinkProvider) GetByAlias(ctx context.Context, alias string) (link.Link, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByAlias", ctx, alias)
+	ret0, _ := ret[0].(link.Link)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByAlias indicates an expected call of GetByAlias.
+func (mr *MockLinkProviderMockRecorder) GetByAlias(ctx, alias any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByAlias", reflect.TypeOf((*MockLinkProvider)(nil).GetByAlias), ctx, alias)
+}

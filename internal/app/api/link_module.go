@@ -8,13 +8,15 @@ import (
 )
 
 type LinkModule struct {
-	CreateLinkUC usecase.CreateLink
+	CreateLinkUC     usecase.CreateLink
+	GetRedirectURLUC usecase.GetRedirectURL
 }
 
 func newLinkModule(pool *pgxpool.Pool) LinkModule {
 	linkRepo := postgres.NewLinkRepository(pool)
 
 	return LinkModule{
-		CreateLinkUC: usecase.NewCreateLink(linkRepo),
+		CreateLinkUC:     usecase.NewCreateLink(linkRepo),
+		GetRedirectURLUC: usecase.NewGetRedirectURL(linkRepo),
 	}
 }
