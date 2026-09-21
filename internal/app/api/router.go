@@ -11,6 +11,7 @@ import (
 	link "github.com/iamroockie/linkforge/internal/link/transport/rest"
 	"github.com/iamroockie/linkforge/internal/platform/httpx"
 	"github.com/iamroockie/linkforge/internal/platform/httpx/middleware"
+	ratelimit "github.com/iamroockie/linkforge/internal/ratelimit/transport/rest"
 )
 
 func NewRouter(app App) http.Handler {
@@ -19,7 +20,8 @@ func NewRouter(app App) http.Handler {
 	mux.Handle("GET /healthz", httpx.Healthz())
 	mux.Handle("GET /readyz", httpx.Readyz(2*time.Second, checkPostgres(app.PgxPool)))
 
-	mux.Handle("POST /links", link.CreateLink(app.Link.CreateLinkUC))
+	rateLimit := ratelimit.RateLimit(app.RateLimit.Limiter, app.ClientIP, "create_link")
+	mux.Handle("POST /links", rateLimit(link.CreateLink(app.Link.CreateLinkUC)))
 	mux.Handle("GET /r/{alias}", link.RedirectLink(app.Link.GetRedirectURLUC))
 
 	handler := httpx.RouteErrors(mux)

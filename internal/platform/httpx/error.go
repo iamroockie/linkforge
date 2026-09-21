@@ -94,6 +94,15 @@ func ValidationError(details []FieldError) Error {
 	}
 }
 
+func TooManyRequestsError() Error {
+	return Error{
+		Status:  http.StatusTooManyRequests,
+		Code:    CodeTooManyRequests,
+		Message: MsgTooManyRequests,
+		Cause:   nil,
+	}
+}
+
 func MatchFieldErrors(err error, rules []FieldRule) []FieldError {
 	reported := make(map[string]bool, len(rules))
 	fe := make([]FieldError, 0, len(rules))

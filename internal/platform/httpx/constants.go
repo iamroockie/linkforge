@@ -11,6 +11,7 @@ const (
 	MsgRequestBodyTooLarge  = "Request body too large"
 	MsgRouteNotFound        = "Route not found"
 	MsgServiceUnavailable   = "Service unavailable"
+	MsgTooManyRequests      = "Too many requests"
 	MsgUnsupportedMediaType = "Unsupported media type"
 	MsgValidationError      = "Request validation failed"
 )
@@ -22,6 +23,7 @@ const (
 	CodePayloadTooLarge      Code = "payload_too_large"
 	CodeRouteNotFound        Code = "route_not_found"
 	CodeServiceUnavailable   Code = "service_unavailable"
+	CodeTooManyRequests      Code = "too_many_requests"
 	CodeUnsupportedMediaType Code = "unsupported_media_type"
 	CodeValidationFailed     Code = "validation_failed"
 )

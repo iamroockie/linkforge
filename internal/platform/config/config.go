@@ -8,11 +8,13 @@ import (
 )
 
 type Config struct {
-	Env             Env            `env:"ENV" envDefault:"dev"`
-	HTTPAddr        string         `env:"HTTP_ADDR" envDefault:":8080"`
-	LogLevel        slog.Level     `env:"LOG_LEVEL" envDefault:"info"`
-	ShutdownTimeout time.Duration  `env:"SHUTDOWN_TIMEOUT" envDefault:"20s"`
-	Postgres        PostgresConfig `envPrefix:"PG_"`
+	Env             Env             `env:"ENV" envDefault:"dev"`
+	LogLevel        slog.Level      `env:"LOG_LEVEL" envDefault:"info"`
+	HTTPAddr        string          `env:"HTTP_ADDR" envDefault:":8080"`
+	TrustedProxies  []string        `env:"TRUSTED_PROXIES"`
+	ShutdownTimeout time.Duration   `env:"SHUTDOWN_TIMEOUT" envDefault:"20s"`
+	RateLimit       RateLimitConfig `envPrefix:"RATELIMIT_"`
+	Postgres        PostgresConfig  `envPrefix:"PG_"`
 }
 
 func Load() (Config, error) {

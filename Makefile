@@ -30,7 +30,7 @@ test:
 
 .PHONY: test-full
 test-full:
-	@go test -p=2 -parallel=4 ./...
+	@go test -race -p=2 -parallel=4 ./...
 
 .PHONY: coverage
 coverage:

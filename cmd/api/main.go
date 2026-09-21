@@ -51,7 +51,13 @@ func run() error {
 	}
 	defer pool.Close()
 
-	app := api.NewApp(pool, log)
+	app, err := api.NewApp(pool, log, api.Options{
+		RateLimit:      cfg.RateLimit,
+		TrustedProxies: cfg.TrustedProxies,
+	})
+	if err != nil {
+		return fmt.Errorf("create app: %w", err)
+	}
 
 	svr := &http.Server{
 		Addr:              cfg.HTTPAddr,
