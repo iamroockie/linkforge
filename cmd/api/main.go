@@ -60,7 +60,7 @@ func run() error {
 	}
 
 	svr := &http.Server{
-		Addr:              cfg.HTTPAddr,
+		Addr:              cfg.HTTP.Addr(),
 		Handler:           api.NewRouter(app),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,

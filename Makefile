@@ -76,7 +76,7 @@ migrate-validate: $(GOOSE)
 
 .PHONY: docker-up
 docker-up:
-	@docker compose up -d --wait
+	@docker compose up -d --build --wait
 
 .PHONY: docker-down
 docker-down:

@@ -10,7 +10,7 @@ import (
 type Config struct {
 	Env             Env             `env:"ENV" envDefault:"dev"`
 	LogLevel        slog.Level      `env:"LOG_LEVEL" envDefault:"info"`
-	HTTPAddr        string          `env:"HTTP_ADDR" envDefault:":8080"`
+	HTTP            HTTPConfig      `envPrefix:"HTTP_"`
 	TrustedProxies  []string        `env:"TRUSTED_PROXIES"`
 	ShutdownTimeout time.Duration   `env:"SHUTDOWN_TIMEOUT" envDefault:"20s"`
 	RateLimit       RateLimitConfig `envPrefix:"RATELIMIT_"`

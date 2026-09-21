@@ -1,4 +1,28 @@
 services:
+  api:
+    build: .
+    image: linkforge/api:0.1.0
+    env_file: .env
+    environment:
+      HTTP_HOST: 0.0.0.0
+      HTTP_PORT: ${HTTP_PORT:-8080}
+      PG_HOST: postgres
+    ports:
+      - target: ${HTTP_PORT:-8080}
+        published: "${HTTP_PORT:-8080}"
+        host_ip: ${HTTP_HOST:-0.0.0.0}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:$${HTTP_PORT}/readyz"]
+      interval: 5m
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+      start_interval: 200ms
+
   postgres:
     image: postgres:18.6-trixie
     environment:
