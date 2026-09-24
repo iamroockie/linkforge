@@ -1,5 +1,7 @@
 # Linkforge
 
+[![CI](https://github.com/iamroockie/linkforge/workflows/CI/badge.svg)](https://github.com/iamroockie/linkforge/actions)
+
 Сервис коротких ссылок на Go: PostgreSQL, срок действия ссылок, rate limiting
 по IP, JSON-логи и graceful shutdown.
 
