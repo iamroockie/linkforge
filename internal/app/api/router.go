@@ -27,7 +27,7 @@ func NewRouter(app App) http.Handler {
 	handler := httpx.RouteErrors(mux)
 	handler = middleware.Recover()(handler)
 	handler = middleware.ErrorLog(app.Logger)(handler)
-	handler = middleware.RequestLog(app.Logger, "/healthz", "readyz")(handler)
+	handler = middleware.RequestLog(app.Logger, "/healthz", "/readyz")(handler)
 	handler = middleware.RequestID()(handler)
 
 	return handler
